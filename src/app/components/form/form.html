@@ -1,22 +1,42 @@
 <div class="login-container">
   <div class="form-title-box">
-    <img src="../../../../public/logo.png" alt="Logo">
+    <img src="./logo.png" alt="Logo">
   </div>
 
   <div class="form-box">
     <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <div class="form-group">
+
+      <div class="form-control">
         <label for="email">Email</label>
         <input type="email" id="email" formControlName="email" />
       </div>
 
-      <div class="form-group">
+      <div class="error" *ngIf="email?.touched && email?.invalid">
+        <small *ngIf="email?.errors?.['required']">
+          Email is required
+        </small>
+        <small *ngIf="email?.errors?.['email']">
+          Enter a valid email
+        </small>
+      </div>
+
+      <div class="form-control">
         <label for="password">Password</label>
         <input type="password" id="password" formControlName="password" />
       </div>
+
+      <div class="error" *ngIf="password?.touched && password?.invalid">
+        <small *ngIf="password?.errors?.['required']">
+          Password is required
+        </small>
+        <small *ngIf="password?.errors?.['minlength']">
+          Password must be at least 6 characters
+        </small>
+      </div>
       
-      <button type="submit" id="login" name="login">Log In</button>
-      <button type="submit" id="signin" name="signin">Sign In</button>
+      <button type="submit" [disabled]="loginForm.invalid">Log In</button>
+      
+      <button type="submit">Sign In</button>
     </form>
   </div>
 </div>
