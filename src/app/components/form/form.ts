@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms'
 import { CommonModule } from '@angular/common';
+import { Auth } from '../../services/auth';
 
 @Component({
   selector: 'app-form',
@@ -10,6 +11,9 @@ import { CommonModule } from '@angular/common';
   styleUrl: './form.scss',
 })
 export class Form {
+
+  constructor(private auth: Auth) {}
+
   loginForm = new FormGroup({
     email: new FormControl('', [
       Validators.required,
@@ -33,6 +37,19 @@ export class Form {
       return;
     }
 
+    const { email, password } = this.loginForm.value;
+    
+    this.auth.login(email!, password!).subscribe({
+      next: (response) => {
+        console.log('Login success', response);
+      },
+      error: (error) => {
+        console.error('Login failed', error);
+      },
+    });
+
     console.log(this.loginForm.value)
+
+    
   }
 }
