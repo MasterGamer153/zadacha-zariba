@@ -61,3 +61,12 @@ button {
 input.ng-touched.ng-invalid {
   border: 2px solid #ff6b6b;
 }
+
+.login-error {
+  background: #5a1a1a;
+  color: #ffb3b3;
+  padding: 0.5rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  text-align: center;
+}

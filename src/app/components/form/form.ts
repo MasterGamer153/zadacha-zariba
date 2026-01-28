@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms'
 import { CommonModule } from '@angular/common';
 import { Auth } from '../../services/auth';
@@ -12,7 +12,7 @@ import { Auth } from '../../services/auth';
 })
 export class Form {
 
-  constructor(private auth: Auth) {}
+  constructor(private auth: Auth, private cdr: ChangeDetectorRef) {}
 
   loginForm = new FormGroup({
     email: new FormControl('', [
@@ -24,6 +24,8 @@ export class Form {
       Validators.minLength(6),
     ]),
   });
+
+
 
   get email(){
     return this.loginForm.get('email');
@@ -37,14 +39,15 @@ export class Form {
       return;
     }
 
+
     const { email, password } = this.loginForm.value;
     
     this.auth.login(email!, password!).subscribe({
       next: (response) => {
         console.log('Login success', response);
       },
-      error: (error) => {
-        console.error('Login failed', error);
+      error: () => {
+        this.loginForm.setErrors({ invalidCredentials: true })
       },
     });
 
