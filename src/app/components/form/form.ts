@@ -44,7 +44,8 @@ export class Form {
     
     this.auth.login(email!, password!).subscribe({
       next: (response) => {
-        console.log('Login success', response);
+        this.auth.saveToken(response.token);
+        console.log('Token saved');
       },
       error: () => {
         this.loginForm.setErrors({ invalidCredentials: true })
