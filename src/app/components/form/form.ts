@@ -1,7 +1,8 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms'
 import { CommonModule } from '@angular/common';
 import { Auth } from '../../services/auth';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-form',
@@ -11,7 +12,7 @@ import { Auth } from '../../services/auth';
   styleUrl: './form.scss',
 })
 export class Form {
-
+  private route = inject(Router);
   constructor(private auth: Auth, private cdr: ChangeDetectorRef) {}
 
   loginForm = new FormGroup({
@@ -46,6 +47,7 @@ export class Form {
       next: (response) => {
         this.auth.saveToken(response.token);
         console.log('Token saved');
+        this.route.navigate(['/chat']);
       },
       error: () => {
         this.loginForm.setErrors({ invalidCredentials: true })
