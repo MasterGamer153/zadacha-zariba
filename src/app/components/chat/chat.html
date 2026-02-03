@@ -1,0 +1,11 @@
+<div class="chat-container">
+
+  <div class="input-area">
+    <input
+      type="text"
+      placeholder="Type a message..."
+      (keydown.enter)="sendMessage()"
+    />
+    <button (click)="sendMessage()">Send</button>
+  </div>
+</div>
