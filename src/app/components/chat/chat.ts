@@ -1,38 +1,20 @@
 import { Component } from '@angular/core';
-
-interface Message {
-  text: string;
-  sender: 'me' | 'bot';
-  timestamp: Date;
-}
+import { CommonModule } from '@angular/common';
+import { Auth } from '../../services/auth';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-chat',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './chat.html',
-  styleUrls: ['./chat.scss']
+  styleUrl: './chat.scss',
 })
 export class Chat {
-  messages: Message[] = [];
-  newMessage = '';
+  constructor(private auth: Auth, private router: Router) {}
 
-  sendMessage() {
-    if (!this.newMessage.trim()) return;
-
-    this.messages.push({
-      text: this.newMessage,
-      sender: 'me',
-      timestamp: new Date()
-    });
-
-    // placeholder bot reply
-    setTimeout(() => {
-      this.messages.push({
-        text: 'Hello 👋 (replace me with real backend)',
-        sender: 'bot',
-        timestamp: new Date()
-      });
-    }, 500);
-
-    this.newMessage = '';
+  logout() {
+    this.auth.logout();
+    this.router.navigate(['/login']);
   }
 }

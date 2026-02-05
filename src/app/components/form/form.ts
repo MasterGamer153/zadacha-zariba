@@ -3,6 +3,7 @@ import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angula
 import { CommonModule } from '@angular/common';
 import { Auth } from '../../services/auth';
 import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-form',
@@ -13,7 +14,7 @@ import { Router } from '@angular/router';
 })
 export class Form {
   private route = inject(Router);
-  constructor(private auth: Auth, private cdr: ChangeDetectorRef) {}
+  constructor(private auth: Auth, private cdr: ChangeDetectorRef, private router: Router, private activatedRoute: ActivatedRoute) {}
 
   loginForm = new FormGroup({
     email: new FormControl('', [
@@ -26,7 +27,14 @@ export class Form {
     ]),
   });
 
-
+  ngOnInit() {
+    this.activatedRoute.queryParams.subscribe(params => {
+      if (params['reason'] === 'sessionExpired') {
+        this.loginForm.setErrors({ sessionExpired: true });
+        this.cdr.detectChanges();
+      }
+      });
+  }
 
   get email(){
     return this.loginForm.get('email');
@@ -39,7 +47,7 @@ export class Form {
     if (this.loginForm.invalid){
       return;
     }
-
+    this.loginForm.setErrors(null);
 
     const { email, password } = this.loginForm.value;
     

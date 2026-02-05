@@ -18,6 +18,9 @@
         <small *ngIf="email?.errors?.['email']">
           Enter a valid email
         </small>
+        <small *ngIf="loginForm.errors?.['sessionExpired']">
+          Session expired. Please log in again.
+        </small>
       </div>
 
       <div class="form-control">
