@@ -1,5 +1,51 @@
-<div class="chat-container">
-  <h2>Chat</h2>
+<div class="chat-page">
 
-  <button (click)="logout()">Log out</button>
+  <!-- Top bar -->
+  <div class="chat-header">
+    <h2>Chat</h2>
+    <button (click)="logout()">Log out</button>
+  </div>
+
+  <!-- Main content -->
+  <div class="chat-body">
+
+    <!-- Left: conversations -->
+    <div class="conversations">
+      <div class="conversation active">
+        <div class="name">Conversation 1</div>
+        <div class="preview">Last message preview</div>
+        <div class="time">5 minutes ago</div>
+      </div>
+
+      <div class="conversation">
+        <div class="name">Conversation 2</div>
+        <div class="preview">Hello there</div>
+        <div class="time">1 hour ago</div>
+      </div>
+    </div>
+
+    <!-- Right: messages -->
+    <div class="messages-panel">
+
+      <div class="messages">
+        <div class="message me">
+          Hi!
+          <span class="time">just now</span>
+        </div>
+
+        <div class="message other">
+          Hello 👋
+          <span class="time">1 min ago</span>
+        </div>
+      </div>
+
+      <!-- Input -->
+      <div class="input-area">
+        <input type="text" placeholder="Type a message..." />
+        <button>Send</button>
+      </div>
+
+    </div>
+
+  </div>
 </div>

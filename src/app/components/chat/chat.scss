@@ -1,10 +1,66 @@
-.chat-container {
+.chat-page {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  max-width: 600px;
-  margin: auto;
-  border: 1px solid #ddd;
+  height: 100vh;
+}
+
+/* Header */
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Body */
+.chat-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Left panel */
+.conversations {
+  width: 280px;
+  border-right: 1px solid #ddd;
+  overflow-y: auto;
+}
+
+.conversation {
+  padding: 0.75rem;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.conversation:hover {
+  background-color: #f5f5f5;
+}
+
+.conversation.active {
+  background-color: #e6f0ff;
+}
+
+.name {
+  font-weight: bold;
+}
+
+.preview {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.time {
+  font-size: 0.75rem;
+  color: #999;
+}
+
+/* Right panel */
+.messages-panel {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .messages {
@@ -14,10 +70,11 @@
 }
 
 .message {
-  max-width: 70%;
-  margin-bottom: 0.5rem;
+  max-width: 60%;
   padding: 0.5rem 0.75rem;
+  margin-bottom: 0.5rem;
   border-radius: 8px;
+  position: relative;
 }
 
 .message.me {
@@ -25,11 +82,19 @@
   background-color: #d1e7ff;
 }
 
-.message.bot {
+.message.other {
   margin-right: auto;
   background-color: #eee;
 }
 
+.message .time {
+  display: block;
+  font-size: 0.7rem;
+  color: #666;
+  margin-top: 0.25rem;
+}
+
+/* Input */
 .input-area {
   display: flex;
   padding: 0.5rem;
@@ -43,4 +108,5 @@ input {
 
 button {
   margin-left: 0.5rem;
+  cursor: pointer;
 }
