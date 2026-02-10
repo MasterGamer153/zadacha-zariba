@@ -14,32 +14,37 @@
       <div
         class="conversation"
         *ngFor="let convo of conversations"
-        [class.active]="convo.id === selectedConversationId"
         (click)="selectConversation(convo.id)"
+        [class.active]="convo.id === selectedConversationId"
       >
         <div class="name">{{ convo.name }}</div>
         <div class="preview">{{ convo.lastMessage }}</div>
-        <div class="time">
-          {{ convo.createdAt | date:'shortTime' }}
-        </div>
+        <div class="time">{{ convo.updatedAt }}</div>
       </div>
     </div>
 
 
     <!-- Right: messages -->
-    <div class="messages-panel">
+    <div class="messages">
+      <ng-container *ngIf="selectedConversationId; else noConversation">
 
-      <div class="messages">
-        <div class="message me">
-          Hi!
-          <span class="time">just now</span>
+        <div
+          class="message"
+          *ngFor="let msg of selectedMessages"
+          [class.me]="msg.sender === 'me'"
+          [class.other]="msg.sender === 'other'"
+        >
+          {{ msg.text }}
+          <span class="time">{{ msg.createdAt }}</span>
         </div>
 
-        <div class="message other">
-          Hello 👋
-          <span class="time">1 min ago</span>
-        </div>
-      </div>
+      </ng-container>
+
+      <ng-template #noConversation>
+        <p>Select a conversation to start chatting</p>
+      </ng-template>
+    
+
 
       <!-- Input -->
       <div class="input-area">

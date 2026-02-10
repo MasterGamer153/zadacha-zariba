@@ -14,23 +14,70 @@ export class Chat {
   constructor(private auth: Auth, private router: Router) {}
 
   conversations = [
-    { id: 1,
+    {
+      id: 1,
       name: 'Alice',
       lastMessage: 'Hey, how are you?',
-      createdAt: new Date('2024-06-01T10:00:00'),
-     },
-    { id: 2,
+      updatedAt: '5 minutes ago',
+    },
+    {
+      id: 2,
       name: 'Bob',
-      lastMessage: 'See you later!',
-      createdAt: new Date('2024-06-01T11:00:00'),
-     },
+      lastMessage: 'Did you see this?',
+      updatedAt: '1 hour ago',
+    },
+    {
+      id: 3,
+      name: 'Charlie',
+      lastMessage: 'Lets catch up',
+      updatedAt: 'Yesterday',
+    },
   ];
 
-  selectedConversationId: number | null = 1;
+  messages = [
+  {
+    id: 1,
+    conversationId: 1,
+    sender: 'me',
+    text: 'Hi Alice!',
+    createdAt: 'just now',
+  },
+  {
+    id: 2,
+    conversationId: 1,
+    sender: 'other',
+    text: 'Hey, how are you?',
+    createdAt: '1 minute ago',
+  },
+  {
+    id: 3,
+    conversationId: 2,
+    sender: 'other',
+    text: 'Did you see this?',
+    createdAt: '1 hour ago',
+  },
+  {
+    id: 4,
+    conversationId: 3,
+    sender: 'me',
+    text: 'Lets catch up soon',
+    createdAt: 'Yesterday',
+  },
+];
+
+
+  selectedConversationId: number | null = null;
 
   selectConversation(id: number) {
     this.selectedConversationId = id;
   }
+
+  get selectedMessages() {
+  return this.messages.filter(
+    msg => msg.conversationId === this.selectedConversationId
+  );
+}
+
 
   logout() {
     if (confirm('Are you sure you want to logout?')) {
