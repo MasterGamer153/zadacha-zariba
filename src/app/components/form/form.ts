@@ -31,7 +31,7 @@ export class Form {
     this.activatedRoute.queryParams.subscribe(params => {
       if (params['reason'] === 'sessionExpired') {
         this.loginForm.setErrors({ sessionExpired: true });
-        this.cdr.detectChanges();
+        this.loginForm.markAsTouched();
       }
       });
   }
