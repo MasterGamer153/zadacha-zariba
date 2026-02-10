@@ -40,14 +40,14 @@ export class Chat {
     conversationId: 1,
     sender: 'me',
     text: 'Hi Alice!',
-    createdAt: 'just now',
+    createdAt: '1 minute ago',
   },
   {
     id: 2,
     conversationId: 1,
     sender: 'other',
     text: 'Hey, how are you?',
-    createdAt: '1 minute ago',
+    createdAt: 'Just now',
   },
   {
     id: 3,

@@ -25,34 +25,36 @@
 
 
     <!-- Right: messages -->
-    <div class="messages">
-      <ng-container *ngIf="selectedConversationId; else noConversation">
+<div class="messages-panel">
 
-        <div
-          class="message"
-          *ngFor="let msg of selectedMessages"
-          [class.me]="msg.sender === 'me'"
-          [class.other]="msg.sender === 'other'"
-        >
-          {{ msg.text }}
-          <span class="time">{{ msg.createdAt }}</span>
-        </div>
+  <div class="messages">
+    <ng-container *ngIf="selectedConversationId; else noConversation">
 
-      </ng-container>
-
-      <ng-template #noConversation>
-        <p>Select a conversation to start chatting</p>
-      </ng-template>
-    
-
-
-      <!-- Input -->
-      <div class="input-area">
-        <input type="text" placeholder="Type a message..." />
-        <button>Send</button>
+      <div
+        class="message"
+        *ngFor="let msg of selectedMessages"
+        [class.me]="msg.sender === 'me'"
+        [class.other]="msg.sender === 'other'"
+      >
+        {{ msg.text }}
+        <span class="time">{{ msg.createdAt }}</span>
       </div>
 
-    </div>
+    </ng-container>
+
+    <ng-template #noConversation>
+      <p>Select a conversation to start chatting</p>
+    </ng-template>
+  </div>
+
+  <!-- Input ALWAYS at bottom -->
+  <div class="input-area">
+    <input type="text" placeholder="Type a message..." />
+    <button>Send</button>
+  </div>
+
+</div>
+
 
   </div>
 </div>

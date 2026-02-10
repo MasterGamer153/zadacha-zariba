@@ -11,7 +11,12 @@
   align-items: center;
   padding: 0.75rem 1rem;
   border-bottom: 1px solid #ddd;
+  
 }
+h2 {
+    margin: 0;
+    color: #d1e7ff;
+  }
 
 /* Body */
 .chat-body {
@@ -30,30 +35,32 @@
 .conversation {
   padding: 0.75rem;
   border-bottom: 1px solid #eee;
+  background-color: #3b072e;
   cursor: pointer;
   transition: transform 0.1s ease;
 }
 
 .conversation:hover {
-  background-color: #f5f5f5;
+  background-color: #5d0b48;
 }
 
 .conversation.active {
-  background-color: #e6f0ff;
+  background-color: #7a085e;
 }
 
 .name {
   font-weight: bold;
+  color: #ffffff;
 }
 
 .preview {
   font-size: 0.9rem;
-  color: #555;
+  color: #f3c1e6;
 }
 
 .time {
   font-size: 0.75rem;
-  color: #999;
+  color: #b693ad;
 }
 
 /* Right panel */
@@ -67,6 +74,10 @@
   flex: 1;
   padding: 1rem;
   overflow-y: auto;
+}
+
+p{
+  color:#ffffff;
 }
 
 .message {
