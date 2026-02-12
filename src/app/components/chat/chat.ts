@@ -17,7 +17,7 @@ export class Chat {
     {
       id: 1,
       name: 'Alice',
-      lastMessage: 'Hey, how are you?',
+      lastMessage: 'No.. car go road.',
       updatedAt: '5 minutes ago',
     },
     {
@@ -39,14 +39,14 @@ export class Chat {
     id: 1,
     conversationId: 1,
     sender: 'me',
-    text: 'Hi Alice!',
+    text: 'Cargo space?',
     createdAt: '1 minute ago',
   },
   {
     id: 2,
     conversationId: 1,
     sender: 'other',
-    text: 'Hey, how are you?',
+    text: 'No.. car go road.',
     createdAt: 'Just now',
   },
   {
@@ -78,6 +78,7 @@ export class Chat {
   );
 }
 
+  newMessageText: string = '';
 
   logout() {
     if (confirm('Are you sure you want to logout?')) {
