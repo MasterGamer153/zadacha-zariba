@@ -1,86 +1,53 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Auth } from '../../services/auth';
 import { Router } from '@angular/router';
+import { ChatService } from '../../services/chat-service';
 
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './chat.html',
   styleUrl: './chat.scss',
 })
 export class Chat {
-  constructor(private auth: Auth, private router: Router) {}
-
-  conversations = [
-    {
-      id: 1,
-      name: 'Alice',
-      lastMessage: 'No.. car go road.',
-      updatedAt: '5 minutes ago',
-    },
-    {
-      id: 2,
-      name: 'Bob',
-      lastMessage: 'Did you see this?',
-      updatedAt: '1 hour ago',
-    },
-    {
-      id: 3,
-      name: 'Charlie',
-      lastMessage: 'Lets catch up',
-      updatedAt: 'Yesterday',
-    },
-  ];
-
-  messages = [
-  {
-    id: 1,
-    conversationId: 1,
-    sender: 'me',
-    text: 'Cargo space?',
-    createdAt: '1 minute ago',
-  },
-  {
-    id: 2,
-    conversationId: 1,
-    sender: 'other',
-    text: 'No.. car go road.',
-    createdAt: 'Just now',
-  },
-  {
-    id: 3,
-    conversationId: 2,
-    sender: 'other',
-    text: 'Did you see this?',
-    createdAt: '1 hour ago',
-  },
-  {
-    id: 4,
-    conversationId: 3,
-    sender: 'me',
-    text: 'Lets catch up soon',
-    createdAt: 'Yesterday',
-  },
-];
-
 
   selectedConversationId: number | null = null;
+  newMessageText: string = '';
+
+  constructor(
+    private auth: Auth,
+    private router: Router,
+    private chatService: ChatService
+  ) {}
+
+  get conversations() {
+    return this.chatService.getConversations();
+  }
+
+  get selectedMessages() {
+    return this.chatService.getMessagesForConversation(
+      this.selectedConversationId
+    );
+  }
 
   selectConversation(id: number) {
     this.selectedConversationId = id;
   }
 
-  get selectedMessages() {
-  return this.messages.filter(
-    msg => msg.conversationId === this.selectedConversationId
-  );
-}
+  sendMessage() {
+    if (!this.selectedConversationId) return;
 
-  newMessageText: string = '';
+    const trimmed = this.newMessageText.trim();
+    if (!trimmed) return;
+
+    this.chatService.sendMessage(this.selectedConversationId, trimmed);
+    this.newMessageText = '';
+  }
 
   logout() {
-      this.router.navigate(['/login']);
+    this.router.navigate(['/login']);
   }
 }

@@ -12,4 +12,13 @@ bcrypt.hash(password, 10).then((hash) => {
       console.log('User seeded');
     }
   );
+
+  db.run(
+    `INSERT OR IGNORE INTO conversations (id, title) VALUES (1, 'General Chat')`,
+    [],
+    () => {
+      console.log('Conversation seeded');
+    }
+  );
+
 });
