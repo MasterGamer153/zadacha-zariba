@@ -81,9 +81,6 @@ export class Chat {
   newMessageText: string = '';
 
   logout() {
-    if (confirm('Are you sure you want to logout?')) {
-      this.auth.logout();
       this.router.navigate(['/login']);
-    }
   }
 }
