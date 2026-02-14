@@ -132,6 +132,8 @@ app.post('/messages', authenticateToken, (req, res) => {
   );
 });
 
+// Start server with Socket.IO
+
 const http = require('http');
 const { Server } = require('socket.io');
 

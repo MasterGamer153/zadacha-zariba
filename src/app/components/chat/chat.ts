@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Auth } from '../../services/auth';
 import { Router } from '@angular/router';
 import { ChatService } from '../../services/chat-service';
+import { SocketService } from '../../services/socket-service';
 
 @Component({
   selector: 'app-chat',
@@ -12,7 +13,7 @@ import { ChatService } from '../../services/chat-service';
   templateUrl: './chat.html',
   styleUrl: './chat.scss',
 })
-export class Chat {
+export class Chat implements OnInit {
 
   selectedConversationId: number | null = null;
   newMessageText: string = '';
@@ -20,7 +21,8 @@ export class Chat {
   constructor(
     private auth: Auth,
     private router: Router,
-    private chatService: ChatService
+    private chatService: ChatService,
+    private socketService: SocketService,
   ) {}
 
   get conversations() {
@@ -49,5 +51,12 @@ export class Chat {
 
   logout() {
     this.router.navigate(['/login']);
+  }
+
+  ngOnInit() {
+    this.socketService.onNewMessage((message: string) => {
+      console.log('New message received:', message);
+      // Optionally, you can refresh the conversations or messages here
+    });
   }
 }
