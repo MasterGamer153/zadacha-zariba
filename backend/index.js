@@ -149,9 +149,34 @@ const io = new Server(server, {
 io.on('connection', (socket) => {
   console.log('User connected');
 
-  socket.on('sendMessage', (message) => {
-    io.emit('newMessage', message);
-  });
+socket.on('sendMessage', (data) => {
+const { conversationId, content, senderId } = data;
+
+  db.run(
+    `
+    INSERT INTO messages (conversation_id, sender_id, content)
+    VALUES (?, ?, ?)
+    `,
+    [conversationId, senderId, content],
+    function (err) {
+      if (err) {
+        console.error(err);
+        return;
+      }
+
+      const savedMessage = {
+        id: this.lastID,
+        conversation_id: conversationId,
+        sender_id: senderId,
+        content,
+        created_at: new Date()
+      };
+
+      io.emit('newMessage', savedMessage);
+    }
+  );
+});
+
 
   socket.on('disconnect', () => {
     console.log('User disconnected');

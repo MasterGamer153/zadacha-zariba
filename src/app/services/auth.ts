@@ -18,6 +18,18 @@ export class Auth {
       password
     });
   }
+
+  getUser(): any {
+    const token = this.getToken();
+    if (!token) return null;
+
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload;
+    } catch (e) {
+      return null;
+    }
+  }
   
   getToken(): string | null {
     return localStorage.getItem(this.tokenKey);

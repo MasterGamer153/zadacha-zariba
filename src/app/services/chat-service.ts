@@ -8,54 +8,23 @@ export class ChatService {
   conversations = [
     {
       id: 1,
-      name: 'Alice',
-      lastMessage: 'Hey, how are you?',
-      updatedAt: '5 minutes ago',
+      name: 'General Chat',
+      lastMessage: '',
+      updatedAt: '',
     },
     {
       id: 2,
-      name: 'Bob',
-      lastMessage: 'Did you see this?',
-      updatedAt: '1 hour ago',
-    },
-    {
-      id: 3,
-      name: 'Charlie',
-      lastMessage: 'Let’s catch up',
-      updatedAt: 'Yesterday',
+      name: 'Announcements Chat',
+      lastMessage: '',
+      updatedAt: '',
     },
   ];
 
-  messages = [
-    {
-      id: 1,
-      conversationId: 1,
-      sender: 'me',
-      text: 'Hi Alice!',
-      createdAt: 'just now',
-    },
-    {
-      id: 2,
-      conversationId: 1,
-      sender: 'other',
-      text: 'Hey, how are you?',
-      createdAt: '1 minute ago',
-    },
-    {
-      id: 3,
-      conversationId: 2,
-      sender: 'other',
-      text: 'Did you see this?',
-      createdAt: '1 hour ago',
-    },
-    {
-      id: 4,
-      conversationId: 3,
-      sender: 'me',
-      text: 'Let’s catch up soon',
-      createdAt: 'Yesterday',
-    },
-  ];
+  messages: any[] = [];
+
+  // =============================
+  // GETTERS
+  // =============================
 
   getConversations() {
     return this.conversations;
@@ -67,21 +36,31 @@ export class ChatService {
     );
   }
 
-  sendMessage(conversationId: number, text: string) {
-    const newMessage = {
-      id: this.messages.length + 1,
-      conversationId,
-      sender: 'me',
-      text,
-      createdAt: 'just now',
+  // =============================
+  // SOCKET MESSAGE HANDLER
+  // =============================
+
+  addIncomingMessage(message: any) {
+
+    // Transform backend format to frontend format
+    const formattedMessage = {
+      id: message.id,
+      conversationId: message.conversation_id,
+      sender: message.sender_id ? 'other' : 'me', // simple logic
+      content: message.content,
+      createdAt: message.created_at
     };
 
-    this.messages.push(newMessage);
+    this.messages.push(formattedMessage);
 
-    const convo = this.conversations.find(c => c.id === conversationId);
+    const convo = this.conversations.find(
+      c => c.id === formattedMessage.conversationId
+    );
+
     if (convo) {
-      convo.lastMessage = text;
+      convo.lastMessage = formattedMessage.content;
       convo.updatedAt = 'just now';
     }
   }
+
 }

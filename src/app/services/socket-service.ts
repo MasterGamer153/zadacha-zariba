@@ -11,12 +11,12 @@ export class SocketService {
     this.socket = io('http://localhost:3000'); // Replace with your server URL
   }
 
-  sendMessage(message: string): void {
-    this.socket.emit('message', message);
+  sendMessage(message: { conversationId: number; content: string; senderId: any; }): void {
+    this.socket.emit('sendMessage', message);
   }
 
-  onNewMessage(callback: (message: string) => void): void {
-    this.socket.on('message', callback);
+  onNewMessage(callback: (message: any) => void): void {
+    this.socket.on('newMessage', callback);
   }
   
 }

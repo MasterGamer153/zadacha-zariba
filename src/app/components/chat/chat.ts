@@ -19,11 +19,15 @@ export class Chat implements OnInit {
   newMessageText: string = '';
 
   constructor(
-    private auth: Auth,
+    public auth: Auth,
     private router: Router,
     private chatService: ChatService,
-    private socketService: SocketService,
+    private socketService: SocketService
   ) {}
+
+  // =============================
+  // GETTERS
+  // =============================
 
   get conversations() {
     return this.chatService.getConversations();
@@ -35,6 +39,23 @@ export class Chat implements OnInit {
     );
   }
 
+  // =============================
+  // LIFECYCLE
+  // =============================
+
+  ngOnInit() {
+
+    // Listen for real-time messages
+    this.socketService.onNewMessage((message: any) => {
+      this.chatService.addIncomingMessage(message);
+    });
+
+  }
+
+  // =============================
+  // ACTIONS
+  // =============================
+
   selectConversation(id: number) {
     this.selectedConversationId = id;
   }
@@ -45,18 +66,21 @@ export class Chat implements OnInit {
     const trimmed = this.newMessageText.trim();
     if (!trimmed) return;
 
-    this.chatService.sendMessage(this.selectedConversationId, trimmed);
+    const user = this.auth.getUser(); // must return decoded JWT
+
+    const messageData = {
+      conversationId: this.selectedConversationId,
+      content: trimmed,
+      senderId: user.userId
+    };
+
+    // Send via socket (backend saves + broadcasts)
+    this.socketService.sendMessage(messageData);
+
     this.newMessageText = '';
   }
 
   logout() {
     this.router.navigate(['/login']);
-  }
-
-  ngOnInit() {
-    this.socketService.onNewMessage((message: string) => {
-      console.log('New message received:', message);
-      // Optionally, you can refresh the conversations or messages here
-    });
   }
 }

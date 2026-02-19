@@ -6,10 +6,9 @@
     <button (click)="logout()">Log out</button>
   </div>
 
-  <!-- Main content -->
   <div class="chat-body">
 
-    <!-- Left: conversations -->
+    <!-- Conversations -->
     <div class="conversations">
       <div
         class="conversation"
@@ -18,43 +17,53 @@
         [class.active]="convo.id === selectedConversationId"
       >
         <div class="name">{{ convo.name }}</div>
-        <div class="preview">{{ convo.lastMessage }}</div>
-        <div class="time">{{ convo.updatedAt }}</div>
       </div>
     </div>
 
+    <!-- Messages Panel -->
+    <div class="messages-panel">
 
-    <!-- Right: messages -->
-<div class="messages-panel">
+      <div class="messages">
 
-  <div class="messages">
-    <ng-container *ngIf="selectedConversationId; else noConversation">
+        <ng-container *ngIf="selectedConversationId; else noConversation">
 
-      <div
-        class="message"
-        *ngFor="let msg of selectedMessages"
-        [class.me]="msg.sender === 'me'"
-        [class.other]="msg.sender === 'other'"
-      >
-        {{ msg.text }}
-        <span class="time">{{ msg.createdAt }}</span>
+          <div
+            class="message"
+            *ngFor="let msg of selectedMessages"
+            [class.me]="msg.sender_id === auth.getUser()?.userId"
+            [class.other]="msg.sender_id !== auth.getUser()?.userId"
+          >
+
+            <div class="content">
+              {{ msg.content }}
+            </div>
+
+            <div class="created-at">
+              {{ msg.created_at | date:'shortTime' }}
+            </div>
+
+          </div>
+
+        </ng-container>
+
+        <ng-template #noConversation>
+          <p>Select a conversation to start chatting</p>
+        </ng-template>
+
       </div>
 
-    </ng-container>
+      <!-- Input Area -->
+      <div class="input-area">
+        <input
+          type="text"
+          placeholder="Type a message..."
+          [(ngModel)]="newMessageText"
+          (keyup.enter)="sendMessage()"
+        />
+        <button (click)="sendMessage()">Send</button>
+      </div>
 
-    <ng-template #noConversation>
-      <p>Select a conversation to start chatting</p>
-    </ng-template>
-  </div>
-
-  <!-- Input ALWAYS at bottom -->
-  <div class="input-area">
-    <input type="text" placeholder="Type a message..." />
-    <button>Send</button>
-  </div>
-
-</div>
-
+    </div>
 
   </div>
 </div>
